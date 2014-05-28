@@ -5,16 +5,15 @@ from trytond.model import fields
 from trytond.pool import PoolMeta
 from trytond.pyson import Eval
 
-__all__ = ['PurchaseInvoice']
+__all__ = ['PurchaseLine']
 __metaclass__ = PoolMeta
 
 
-class PurchaseInvoice:
+class PurchaseLine:
     __name__ = 'purchase.line'
     delivery_date = fields.Date('Delivery Date',
         states={
             'invisible': Eval('type') != 'line',
-            'required': Eval('type') == 'line',
             }, depends=['type'])
 
     def on_change_product(self):        

@@ -7,5 +7,5 @@ from .purchase import *
 
 def register():
     Pool.register(
-        PurchaseInvoice,
+        PurchaseLine,
         module='purchase_delivery_date_manual', type_='model')
