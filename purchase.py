@@ -16,12 +16,12 @@ class PurchaseLine:
             'invisible': Eval('type') != 'line',
             }, depends=['type'])
 
-    def on_change_product(self):        
-        res = super(PurchaseInvoice, self).on_change_product()
+    def on_change_product(self):
+        res = super(PurchaseLine, self).on_change_product()
         res['delivery_date'] = self.on_change_with_delivery_date()
         return res
 
     def on_change_quantity(self):
-        res = super(PurchaseInvoice, self).on_change_quantity()
+        res = super(PurchaseLine, self).on_change_quantity()
         res['delivery_date'] = self.on_change_with_delivery_date()
         return res
