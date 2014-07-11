@@ -11,17 +11,25 @@ __metaclass__ = PoolMeta
 
 class PurchaseLine:
     __name__ = 'purchase.line'
-    delivery_date = fields.Date('Delivery Date',
+    delivery_date_ = fields.Date('Delivery Date',
         states={
             'invisible': Eval('type') != 'line',
             }, depends=['type'])
 
-    def on_change_product(self):
-        res = super(PurchaseLine, self).on_change_product()
-        res['delivery_date'] = self.on_change_with_delivery_date()
-        return res
+    @classmethod
+    def __setup__(cls):
+        super(PurchaseLine, cls).__setup__()
+        if not cls.delivery_date.setter:
+            cls.delivery_date.setter = 'set_delivery_date'
+        if cls.delivery_date._field.readonly:
+            cls.delivery_date._field.readonly = False
 
-    def on_change_quantity(self):
-        res = super(PurchaseLine, self).on_change_quantity()
-        res['delivery_date'] = self.on_change_with_delivery_date()
-        return res
+    @fields.depends('delivery_date_')
+    def on_change_with_delivery_date(self, name=None):
+        if self.delivery_date_:
+            return self.delivery_date_
+        return super(PurchaseLine, self).on_change_with_delivery_date(name)
+
+    @classmethod
+    def set_delivery_date(cls, lines, name, value):
+        cls.write(lines, {'delivery_date_': value})
