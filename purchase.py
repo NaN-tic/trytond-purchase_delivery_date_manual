@@ -2,7 +2,7 @@
 # The COPYRIGHT file at the top level of this repository contains
 # the full copyright notices and license terms.
 from trytond.model import fields
-from trytond.pool import PoolMeta
+from trytond.pool import Pool, PoolMeta
 from trytond.pyson import Eval
 
 __all__ = ['PurchaseLine']
@@ -32,4 +32,6 @@ class PurchaseLine:
 
     @classmethod
     def set_delivery_date(cls, lines, name, value):
+        if not value:
+            value = Pool().get('ir.date').today()
         cls.write(lines, {'delivery_date_': value})
