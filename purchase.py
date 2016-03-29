@@ -6,10 +6,10 @@ from trytond.pool import Pool, PoolMeta
 from trytond.pyson import Eval
 
 __all__ = ['PurchaseLine']
-__metaclass__ = PoolMeta
 
 
 class PurchaseLine:
+    __metaclass__ = PoolMeta
     __name__ = 'purchase.line'
     delivery_date_ = fields.Date('Delivery Date',
         states={
